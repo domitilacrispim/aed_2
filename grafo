@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+typedef struct grafo{
+    int qtd_vertice, qtd_aresta;
+    int *grau;
+    int **aresta;
+} grafo;
+grafo* criagrafo(int n){
+    if(n<1) return NULL;
+    grafo *g = ( grafo*) malloc (sizeof(grafo));
+    if(g==NULL) return NULL;
+    g->qtd_vertice=n;
+    g->qtd_aresta=0;
+    g->grau= (int*) calloc(n, sizeof(int));
+        if (g->grau == NULL) {
+        free (g);
+        return NULL;
+    }
+    g->aresta=(int**)malloc(n*sizeof(int*));
+    if( g->aresta == NULL){
+        free(g->grau);
+        free(g);
+        return NULL;
+    }
+    for ( int i=0; i<n; i++){
+        g->aresta[i]=(int*)calloc(n,sizeof(int));
+        if(g->aresta[i]==NULL){
+           for (int k=0; k<=i; k++ ){
+            free(g->aresta[k]);
+            }
+            free(g->aresta);
+            free(g->grau);
+            free(g); return NULL;
+        }
+    }
+}
+
+int insere_aresta( grafo *g, int v1, int v2, int p){
+    if(g==NULL) return -1;
+    if(v1>=g->qtd_vertice ||v2>=g->qtd_vertice ) return -1;
+    if(!g->aresta[v1][v2]) return 0;
+    g->aresta[v1][v2]=p;
+    g->grau[v1]++;
+    g->qtd_aresta++;
+    return 1;
+}
+int verifica_aresta ( grafo *g, int v1, int v2){
+    if ( g==NULL) return -1;
+    if ( v1>=g->qtd_vertice ||v2>=g->qtd_vertice ) return -1;
+    return g->aresta[v1][v2];
+}
+
+
+int main (){
+    grafo *g;
+
+}
