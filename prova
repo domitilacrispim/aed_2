@@ -1,0 +1,143 @@
+1- erro pois f() não eh static e precisa de objeto para ser chamada.
+2- falta o import
+3- não inicializou o A portanto não pode acessar o a1, compila mas não executa
+4-  Coordena.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package jogo;
+    
+import java.util.Vector;
+
+/**
+ *
+ * @author a11611BCC013
+ */
+public class Coordena {
+    Vector <Jogador> j = new Vector <Jogador>();
+    int max;
+    public void registra_jogador( String s){
+        Jogador g= new Jogador();
+        g.cria(s);
+        j.add(g);
+    }
+    public void rodada (){
+        int i,a; i=0;
+        while ( i< j.size()){
+            a=((int)(Math.random()*6)+1);
+            j.get(i).addponto(a);
+            i++;
+        }
+    }
+    public boolean vence (){
+        int i=0; boolean r=false; 
+        while(i<j.size()){
+            if(j.get(i).retornaponto()>max){
+                r=true; break;
+            }
+            i++;
+        }
+        return r;
+    }
+    public Vector vencedores(){
+         int i=0; 
+         Vector <Jogador> v = new Vector();
+        while(i<j.size()){
+            if(j.get(i).retornaponto()>max){
+                v.add(j.get(i));
+            }
+            i++;
+        }
+        return v;
+    }
+    public void maximo (int a){
+        max=a;
+    }
+}
+
+Jogador.java
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package jogo;
+
+/**
+ *
+ * @author a11611BCC013
+ */
+public class Jogador {
+    String nome;
+    int pontos;
+    public void cria(String s){
+        nome=s;
+        pontos=0;
+    }
+    public String retornanome(){
+        return nome;
+    }
+    public void addponto (int a){
+        pontos=pontos+a;
+    }
+    public int retornaponto (){
+        return pontos;
+    }
+}
+
+Jogo.java
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package jogo;
+
+import java.util.Scanner;
+import java.util.Vector;
+
+/**
+ *
+ * @author a11611BCC013
+ */
+public class Jogo {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Coordena c = new Coordena ();
+        System.out.println (" BEM VINDO AO JOGO! DIGITE O NUMERO DE PARICIPANTES.");
+        Scanner ler = new Scanner (System.in);
+        int a, i=0;
+        String s;
+        a=ler.nextInt();
+        while(a>i){
+            System.out.println ("Digite o nome do jogador");
+           s=ler.next();
+            i++;
+            c.registra_jogador(s);
+        }
+        i=20;  
+        c.maximo(i);
+        while(true){
+            c.rodada();
+            if(c.vence()){
+                System.out.println ("Existe pelo menos um vencedor! Vou listar todos:");  break; 
+            }
+        }
+        Vector <Jogador> r = new Vector();
+        r = c.vencedores(); i=0;
+        while(i<r.size()){
+            System.out.println (r.get(i).retornanome());
+            i++;
+        }
+        
+        
+    }
+    
+}
